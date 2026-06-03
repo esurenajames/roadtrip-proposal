@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
   --font-sans: 'Outfit', sans-serif;
@@ -25,12 +25,6 @@
   
   --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-@theme {
-  --font-sans: 'Outfit', sans-serif;
-  --font-hand: 'Caveat', cursive;
-  --color-glass-bg: rgba(20, 15, 35, 0.65);
 }
 
 body {
