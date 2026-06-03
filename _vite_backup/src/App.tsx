@@ -71,6 +71,7 @@ function App() {
   const [stops] = useState<Stop[]>(INITIAL_STOPS);
   const [activeStopIndex, setActiveStopIndex] = useState(0);
   const [floatingHearts, setFloatingHearts] = useState<FloatingHeart[]>([]);
+  const yesScale = 1 + noCount * 0.25;
 
   const handleYes = () => {
     setIsAccepted(true);
