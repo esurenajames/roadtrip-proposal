@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Heart, Compass, Sparkles, Search, ChevronLeft, ChevronRight, Library, HelpCircle } from 'lucide-react';
+import { Heart, Compass, Sparkles, Search, ChevronLeft, ChevronRight, Library, HelpCircle, X } from 'lucide-react';
 import { StarryBackground } from './StarryBackground';
 import { TapePlayer } from './TapePlayer';
 import { UsSidebar } from './UsSidebar';
@@ -72,10 +72,18 @@ export const RoadtripApp: React.FC = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [floatingHearts, setFloatingHearts] = useState<FloatingHeart[]>([]);
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
+  const [showAd, setShowAd] = useState(false);
 
   useEffect(() => {
     setSelectedImageIndex(0);
   }, [activeStopIndex]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAd(true);
+    }, 4000); // 4 seconds delay
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const scrollTop = e.currentTarget.scrollTop;
@@ -365,18 +373,34 @@ export const RoadtripApp: React.FC = () => {
                 <p className="text-xs text-zinc-500 mt-0.5">Static context lists of what you should bring</p>
               </div>
 
-              <div className="max-w-2xl">
-                {/* Packing Checklist Card */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Gear Card */}
                 <div className="bg-zinc-950/40 border border-white/5 rounded-2xl p-5 flex flex-col gap-3">
-                  <h4 className="text-xs font-bold uppercase tracking-widest text-rose-400">What to Bring 🎒</h4>
-                  <ul className="text-xs text-zinc-400 list-none p-0 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2.5 mt-1">
-                    <li className="flex items-center gap-2">📱 Phone</li>
-                    <li className="flex items-center gap-2">🔋 Powerbank</li>
-                    <li className="flex items-center gap-2">💧 Water</li>
-                    <li className="flex items-center gap-2">👗 Your OOTD dress</li>
-                    <li className="flex items-center gap-2">❤️ Yourself</li>
-                    <li className="flex items-center gap-2">💄 Makeups para 'di haggard</li>
-                    <li className="flex items-center gap-2">🍿 Snacks (baka mapagod driver)</li>
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-rose-400">Essential Gear 🎒</h4>
+                  <ul className="text-xs text-zinc-400 list-none p-0 flex flex-col gap-2 mt-1">
+                    <li>📱 Phone</li>
+                    <li>🔋 Powerbank</li>
+                    <li>💧 Water</li>
+                    <li>📸 Polaroid / Instant Camera</li>
+                    <li>🗺️ Offline Maps pre-loaded</li>
+                  </ul>
+                </div>
+
+                {/* Clothes Card */}
+                <div className="bg-zinc-950/40 border border-white/5 rounded-2xl p-5 flex flex-col gap-3">
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400">Cozy Wear & OOTD 👗</h4>
+                  <ul className="text-xs text-zinc-400 list-none p-0 flex flex-col gap-2 mt-1">
+                    <li>👗 Your OOTD dress</li>
+                  </ul>
+                </div>
+
+                {/* Vibes Card */}
+                <div className="bg-zinc-950/40 border border-white/5 rounded-2xl p-5 flex flex-col gap-3">
+                  <h4 className="text-xs font-bold uppercase tracking-widest text-purple-400">Vibes & Comfort ❤️</h4>
+                  <ul className="text-xs text-zinc-400 list-none p-0 flex flex-col gap-2 mt-1">
+                    <li>❤️ Yourself</li>
+                    <li>💄 Makeups para 'di haggard</li>
+                    <li>🍿 Snacks (baka mapagod driver)</li>
                   </ul>
                 </div>
               </div>
@@ -400,6 +424,67 @@ export const RoadtripApp: React.FC = () => {
 
       {/* FOOTER: Music Player (Sticky Spotify bottom bar) */}
       <TapePlayer />
+
+      {/* Ad Modal popup */}
+      {showAd && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-[fadeIn_0.2s_ease-out]">
+          <div className="bg-[#121212] border border-white/10 rounded-2xl max-w-sm w-full shadow-2xl flex flex-col overflow-hidden relative animate-[scaleUp_0.3s_cubic-bezier(0.34,1.56,0.64,1)]">
+            {/* Close Button */}
+            <button 
+              onClick={() => setShowAd(false)} 
+              className="absolute top-3 right-3 text-white bg-black/40 hover:bg-black/60 p-1.5 rounded-full transition z-10"
+              aria-label="Close Ad"
+            >
+              <X size={16} />
+            </button>
+
+            {/* Ad Banner GIF (takes full top part, no padding) */}
+            <div className="w-full aspect-[16/10] relative bg-zinc-950">
+              <img 
+                src="/please-begging.gif" 
+                className="w-full h-full object-cover" 
+                alt="Please Begging GIF" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+            </div>
+
+            {/* Content area with padding */}
+            <div className="p-6 flex flex-col items-center text-center gap-4">
+              {/* Spotify-style Ad Badge */}
+              <div className="flex items-center gap-1.5 bg-[#1db954]/10 text-[#1db954] text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                <Sparkles size={10} fill="currentColor" />
+                <span>Duo Premium Ad</span>
+              </div>
+
+              {/* Ad Slogan */}
+              <div className="flex flex-col gap-1">
+                <h3 className="text-base font-bold text-white tracking-tight leading-tight">
+                  Listening to music is better together
+                </h3>
+                <p className="text-xs text-zinc-300 font-medium italic mt-1 leading-snug px-2">
+                  "Please let me be your favorite duo again 💚"
+                </p>
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col gap-2 w-full mt-1">
+                <button 
+                  onClick={() => setShowAd(false)} 
+                  className="w-full bg-[#1db954] hover:bg-[#1ed760] text-black font-extrabold py-2.5 px-6 rounded-full transition transform hover:scale-[1.02] active:scale-[0.98] text-xs tracking-wide shadow-md"
+                >
+                  Yes, let's do it! 🚀
+                </button>
+                <button 
+                  onClick={() => setShowAd(false)} 
+                  className="w-full bg-transparent hover:bg-white/5 text-zinc-400 hover:text-white font-semibold py-1.5 px-6 rounded-full transition text-[10px]"
+                >
+                  No, keep playing ad-supported
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
